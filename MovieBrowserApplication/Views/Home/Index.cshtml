@@ -3,29 +3,45 @@
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>Movie Browser</h1>
+    <p class="lead">Look through our entire collection of movies or search by genre and title!</p>
+    <p></p>
+    <form action="/Home/ListMoviesByCategory" method="get">
+        <h3>Category</h3>
+        <select name="Category" onchange="this.form.submit()">
+            <option>Select A Category</option>
+            @foreach (var Category in ViewBag.Categories)
+            {
+                <option value="@Category">@Category</option>
+            }
+        </select>
+    </form>
+    <form action="/Home/SearchForMovieName" method="get">
+        <label for="Movie Name">
+            <b>Movie Name?</b>
+        </label>
+        <input type="text" name="MovieName" id="MovieNameId" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<div class="container-fluid">
+    @foreach (var Movie in ViewBag.ListOfMovies)
+    { 
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title itemName">@Movie.Name</h3>
+            </div>
+            <div class="panel-body bounding-box">
+                <div class="thumbnail">
+                    <img class="img-thumbnail" src="~/Content/Images/@Movie.ImgSrc" style="height:240px"/>
+                </div>
+                <h4 class="text-center itemDesc">@Movie.Category</h4><br />
+                <a href="/Home/RateMovie?Name=@Movie.Name" class="btn btn-info" role="button">Rate</a>
+                <p>@Movie.Rating</p>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
+    }
 </div>
